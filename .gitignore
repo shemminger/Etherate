@@ -1,0 +1,30 @@
+# build result
+/etherate
+# Normal rules
+.*
+*.o
+
+# git files that we don't want to ignore even it they are dot-files
+!.gitignore
+
+# work results
+
+*.orig
+*.rej
+*~
+\#*#
+
+# configuration files
+COPYING
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache/
+compile
+config.*
+configure
+depcomp
+install-sh
+libtool
+ltmain.sh
+missing
