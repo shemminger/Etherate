@@ -37,7 +37,6 @@
  ************************************************************* GLOBAL CONSTANTS
  */
 
-const char VERSION[20] = "0.8.beta 2016-03";
 const unsigned int       F_SIZE_MAX         = 10000; // Maximum frame size on the wire (payload+headers)
 const unsigned int       F_SIZE_DEF         = 1500;  // Default frame payload size in bytes
 const unsigned long long F_DURATION_DEF     = 30;    // Default test duration in seconds
@@ -52,7 +51,7 @@ const unsigned short     QINQ_PCP_DEF       = 0;     // Default QinQ PCP value
 const unsigned short     MPLS_LABELS_MAX    = 10;    // Maximum number of MPLS labels
 const unsigned int       HEADERS_LEN_DEF    = 14;    // Default frame headers length
 const unsigned short     ETHERTYPE_DEF      = 43981; // Default Ethertype (0xABCD)
-const unsigned int       IF_INDEX_DEF       = -1;    // Default interface index number
+const unsigned int       IF_INDEX_DEF       = 0;     // Default interface index number
 const unsigned char      TX_DELAY_DEF       = true;  // Default TX to RX delay check
 
 
@@ -152,7 +151,7 @@ struct FRAME_HEADERS           // Frame header settings
 struct TEST_INTERFACE          // Settings for the physical test interface
 {
 
-	int    IF_INDEX;
+    unsigned int    IF_INDEX;
     char   IF_NAME[IFNAMSIZ];
     struct sockaddr_ll SOCKET_ADDRESS;
     int    SOCKET_FD;                   // Used for sending frames
@@ -216,13 +215,13 @@ struct QM_TEST {               // Settings specific to the quality measurement t
 
     char          ENABLED;              // Enable the quality measurement tests
     unsigned int  INTERVAL;             // Default echo interval in milliseconds
-    unsigned long INTERVAL_SEC;
-    unsigned long INTERVAL_NSEC;
+    time_t	  INTERVAL_SEC;
+    long	  INTERVAL_NSEC;
     long double   INTERVAL_MIN;
     long double   INTERVAL_MAX;
     unsigned int  TIMEOUT;              // Default timeout in milliseconds
-    unsigned long TIMEOUT_NSEC;
-    unsigned long TIMEOUT_SEC;
+    long	  TIMEOUT_NSEC;
+    time_t	  TIMEOUT_SEC;
     unsigned long TIMEOUT_COUNT;
     unsigned int  DELAY_TEST_COUNT;     // Number of one way delay measurements
     long double   RTT_MIN;

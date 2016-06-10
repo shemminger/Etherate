@@ -85,7 +85,7 @@ void delay_test(struct APP_PARAMS *APP_PARAMS, struct FRAME_HEADERS *FRAME_HEADE
     if(APP_PARAMS->TX_MODE)
     {
 
-        for (int i=0; i < QM_TEST->DELAY_TEST_COUNT; i++)
+        for (unsigned int i=0; i < QM_TEST->DELAY_TEST_COUNT; i++)
         {
 
             // Get the current time and send it to RX
@@ -146,7 +146,7 @@ void delay_test(struct APP_PARAMS *APP_PARAMS, struct FRAME_HEADERS *FRAME_HEADE
 
         double DELAY_AVERAGE = 0;
 
-        for (int i=0; i < QM_TEST->DELAY_TEST_COUNT; i++)
+        for (unsigned int i=0; i < QM_TEST->DELAY_TEST_COUNT; i++)
         {
             DELAY_AVERAGE += QM_TEST->pDELAY_RESULTS[i];
         }
@@ -238,7 +238,7 @@ void delay_test(struct APP_PARAMS *APP_PARAMS, struct FRAME_HEADERS *FRAME_HEADE
 
                 double DELAY_AVERAGE = 0;
 
-                for (int i=0; i < QM_TEST->DELAY_TEST_COUNT; i++)
+                for (unsigned int i=0; i < QM_TEST->DELAY_TEST_COUNT; i++)
                 {
                     DELAY_AVERAGE += QM_TEST->pDELAY_RESULTS[i];
                 }
@@ -265,7 +265,7 @@ void mtu_sweep_test(struct APP_PARAMS *APP_PARAMS, struct FRAME_HEADERS *FRAME_H
 {
 
     // Check the interface MTU
-    int PHY_MTU = get_interface_mtu_by_name(TEST_INTERFACE);
+    unsigned int PHY_MTU = get_interface_mtu_by_name(TEST_INTERFACE);
 
     if (MTU_TEST->MTU_TX_MAX > PHY_MTU) {
         printf("Starting MTU sweep from %u to %u (interface max)\n",
@@ -287,10 +287,10 @@ void mtu_sweep_test(struct APP_PARAMS *APP_PARAMS, struct FRAME_HEADERS *FRAME_H
 
     if (APP_PARAMS->TX_MODE) {
 
-        int MTU_TX_CURRENT   = 0;
-        int MTU_ACK_PREVIOUS = 0;
-        int MTU_ACK_CURRENT  = 0;
-        int MTU_ACK_LARGEST  = 0;
+        unsigned int MTU_TX_CURRENT   = 0;
+        unsigned int MTU_ACK_PREVIOUS = 0;
+        unsigned int MTU_ACK_CURRENT  = 0;
+        unsigned int MTU_ACK_LARGEST  = 0;
         char WAITING         = true;
 
         for (MTU_TX_CURRENT = MTU_TEST->MTU_TX_MIN; MTU_TX_CURRENT <= MTU_TEST->MTU_TX_MAX; MTU_TX_CURRENT++)
@@ -366,10 +366,10 @@ void mtu_sweep_test(struct APP_PARAMS *APP_PARAMS, struct FRAME_HEADERS *FRAME_H
                         if (MTU_ACK_CURRENT < MTU_ACK_PREVIOUS)
                         {
                             // Frame received out of order, later than expected
-                            TEST_PARAMS->F_RX_LATE+1;
+                            TEST_PARAMS->F_RX_LATE += 1;
                         } else if (MTU_ACK_CURRENT > MTU_ACK_PREVIOUS+1) {
                             // Frame received out of order, earlier than expected
-                            TEST_PARAMS->F_RX_EARLY+1;
+                            TEST_PARAMS->F_RX_EARLY += 1;
                         } else if (MTU_ACK_CURRENT == MTU_ACK_PREVIOUS+1) {
                             // Frame received in order
                             MTU_ACK_PREVIOUS = MTU_ACK_CURRENT;
@@ -500,10 +500,10 @@ void mtu_sweep_test(struct APP_PARAMS *APP_PARAMS, struct FRAME_HEADERS *FRAME_H
                     if (MTU_RX_CURRENT < MTU_RX_PREVIOUS)
                     {
                         // Frame received out of order, later than expected
-                        TEST_PARAMS->F_RX_LATE+1;
+                        TEST_PARAMS->F_RX_LATE +=1;
                     } else if (MTU_RX_CURRENT > MTU_RX_PREVIOUS+1) {
                         // Frame received out of order, earlier than expected
-                        TEST_PARAMS->F_RX_EARLY+1;
+                        TEST_PARAMS->F_RX_EARLY += 1;
                     } else if (MTU_RX_CURRENT == MTU_RX_PREVIOUS+1) {
                         // Frame received in order
                         MTU_RX_PREVIOUS = MTU_RX_CURRENT;
@@ -607,7 +607,6 @@ void latency_test(struct APP_PARAMS *APP_PARAMS, struct FRAME_HEADERS *FRAME_HEA
     long double JITTER       = 0.0;
     long double INTERVAL     = 0.0;
     long long   TX_UPTIME    = 0;
-    long long   RX_UPTIME    = 0;
     char        WAITING      = false;
     char        ECHO_WAITING = false;
 

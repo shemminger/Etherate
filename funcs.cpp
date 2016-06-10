@@ -393,7 +393,7 @@ int cli_args(int argc, char *argv[], struct APP_PARAMS *APP_PARAMS,
             } else if (strncmp(argv[i], "-i", 2)==0) {
                 if (argc > (i+1))
                 {
-                    strncpy(TEST_INTERFACE->IF_NAME,argv[i+1],sizeof(argv[i+1]));
+		    strncpy(TEST_INTERFACE->IF_NAME, argv[i+1], IFNAMSIZ);
                     i++;
                 } else {
                     printf("Oops! Missing interface name\n"
@@ -1066,7 +1066,7 @@ int set_sock_interface_index(struct TEST_INTERFACE *TEST_INTERFACE)
                 ioctl(TEST_INTERFACE->SOCKET_FD, SIOCGIFINDEX, &ifreq);
 
                 // Check if this is the interface index the user specified
-                if (ifreq.ifr_ifindex==TEST_INTERFACE->IF_INDEX)
+                if (ifreq.ifr_ifindex==(int)TEST_INTERFACE->IF_INDEX)
                 {
 
                     // Get the interface name
@@ -1189,7 +1189,10 @@ void signal_handler(int signal)
                         FRAME_HEADERS->LENGTH+FRAME_HEADERS->TLV_SIZE,
                         0,(struct sockaddr*)&TEST_INTERFACE->SOCKET_ADDRESS,
                         sizeof(TEST_INTERFACE->SOCKET_ADDRESS));
-
+    if (TX_RET_VAL < 0) {
+	printf("Error sending dying gasp\n");
+	perror("sendto() ");
+    }
 
     printf("Leaving promiscuous mode\n");
 

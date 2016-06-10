@@ -255,7 +255,7 @@ TEST_INTERFACE.fds[0].revents = 0;
         if (TEST_INTERFACE.IF_INDEX != IF_INDEX_DEF) {
 
             TEST_INTERFACE.IF_INDEX = set_sock_interface_index(&TEST_INTERFACE);
-            if (TEST_INTERFACE.IF_INDEX == -1)
+            if (TEST_INTERFACE.IF_INDEX == 0)
             {
                 printf("Error: Couldn't set interface with index, "
                        "returned index was 0!\n");
@@ -266,7 +266,7 @@ TEST_INTERFACE.fds[0].revents = 0;
         } else if (strcmp(TEST_INTERFACE.IF_NAME, "") != 0) {
 
             TEST_INTERFACE.IF_INDEX = set_sock_interface_name(&TEST_INTERFACE);
-            if (TEST_INTERFACE.IF_INDEX == -1)
+            if (TEST_INTERFACE.IF_INDEX == 0)
             {
                 printf("Error: Couldn't set interface index from name, "
                        "returned index was 0!\n");
@@ -277,7 +277,7 @@ TEST_INTERFACE.fds[0].revents = 0;
         } else if (TEST_INTERFACE.IF_INDEX == IF_INDEX_DEF) {
 
             TEST_INTERFACE.IF_INDEX = get_sock_interface(&TEST_INTERFACE);
-            if (TEST_INTERFACE.IF_INDEX == -1)
+            if (TEST_INTERFACE.IF_INDEX == 0)
             {
                 printf("Error: Couldn't find appropriate interface ID, "
                       "returned ID was 0!\n Try supplying a source MAC address "
@@ -334,7 +334,7 @@ TEST_INTERFACE.fds[0].revents = 0;
         }
 
         // Fill the test frame with some random data
-        for (int i = 0; i < (F_SIZE_MAX-FRAME_HEADERS.LENGTH); i++)
+        for (unsigned int i = 0; i < (F_SIZE_MAX-FRAME_HEADERS.LENGTH); i++)
         {
             FRAME_HEADERS.TX_DATA[i] = (char)((255.0*rand()/(RAND_MAX+1.0)));
         }
@@ -342,7 +342,6 @@ TEST_INTERFACE.fds[0].revents = 0;
         
         // Send and receive ret vals
         int TX_RET_VAL = 0;
-        int RX_LEN     = 0;
 
 
         // Set the network interface to promiscuos mode
